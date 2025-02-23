@@ -1,0 +1,22 @@
+# macOS system files
+.DS_Store
+
+# Goland project settings
+.idea/
+
+# Go build artifacts and binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Build directories
+/bin/
+/pkg/
+
+# Test coverage output
+coverage.out
+
+# Dependency directory (if using vendoring)
+vendor/
