@@ -2,7 +2,7 @@ package lexer
 
 import "github.com/victortsokonov/TheMonkeyLanguage/interpreter/token"
 
-// The lexer supports ASCII characters instead of full Unicode range
+// Lexer supports ASCII characters instead of full Unicode Range
 type Lexer struct {
 	input        string
 	position     int  // current position in input (points to current char)
@@ -12,11 +12,11 @@ type Lexer struct {
 
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
-	l.readChar()
-	return l //  we give lexer for each input given
+	l.readChar() // Init lexer
+	return l     // We give lexer for each input given
 }
 
-// To do: Add full Unicode support and emojis :)
+// To do: Add full Unicode support and emojis
 func (l *Lexer) readChar() {
 	if l.readPosition >= len(l.input) {
 		l.ch = 0 // ASCII code for "NUL"
