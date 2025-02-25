@@ -33,3 +33,15 @@ type Token struct {
 	Type    TokenType
 	Literal string
 }
+
+var keywords = map[string]TokenType{
+	"fn":  FUNCTION,
+	"let": LET,
+}
+
+func LookupIdent(ident string) TokenType {
+	if tok, ok := keywords[ident]; ok {
+		return tok // Returns a language-defined identifier type, if not...
+	}
+	return IDENT // It must be a user-defined identifier
+}
