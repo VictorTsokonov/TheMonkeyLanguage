@@ -35,7 +35,14 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch l.ch {
 	case '=':
-		tok = newToken(token.ASSIGN, l.ch)
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{Type: token.EQ, Literal: literal}
+		} else {
+			tok = newToken(token.ASSIGN, l.ch)
+		}
 	case ';':
 		tok = newToken(token.SEMICOLON, l.ch)
 	case '(':
@@ -49,7 +56,14 @@ func (l *Lexer) NextToken() token.Token {
 	case '-':
 		tok = newToken(token.MINUS, l.ch)
 	case '!':
-		tok = newToken(token.BANG, l.ch)
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{Type: token.NOT_EQ, Literal: literal}
+		} else {
+			tok = newToken(token.BANG, l.ch)
+		}
 	case '*':
 		tok = newToken(token.ASTERISK, l.ch)
 	case '/':
@@ -63,20 +77,31 @@ func (l *Lexer) NextToken() token.Token {
 	case '}':
 		tok = newToken(token.RBRACE, l.ch)
 	case 0:
-		//tok = newToken(token.EOF, l.ch)
+
+		println("IN IS EOF")
+		//tok = newToken(token.EOF, l.ch) // crazy... this line gives the error?
+		// The error was the following, when we construct with newToken(),
+		// we pass ch = '', however this is considered the null value and by default
+		// golang expects us to fit in exactly one rune literal, not 0, hence the conversion
+		// from ch = '' to string "", actually did become "\x00" instead of "", where
+		// "\x00" is a string containing the null character, not an empty string.
 		tok.Literal = ""
 		tok.Type = token.EOF
 	default:
 		if isLetter(l.ch) {
-			// >? tok = newToken(token.IDENT, l.readIdentifier)
+			println("IN IS LETTER")
+			//tok = newToken(token.IDENT, l.readIdentifier())
+			//println("INDETIFIER: ", l.readIdentifier())
 			tok.Literal = l.readIdentifier()
 			tok.Type = token.LookupIdent(tok.Literal)
 			return tok // return here to not call readChar()
 		} else if isDigit(l.ch) {
+			println("IN IS DIGIT")
 			tok.Type = token.INT
 			tok.Literal = l.readNumber()
 			return tok
 		} else {
+			println("IN IS ILLEGAL")
 			tok = newToken(token.ILLEGAL, l.ch)
 		}
 	}
@@ -116,4 +141,12 @@ func (l *Lexer) readNumber() string {
 
 func isDigit(ch byte) bool {
 	return '0' <= ch && ch <= '9'
+}
+
+func (l *Lexer) peekChar() byte {
+	if l.readPosition >= len(l.input) {
+		return 0
+	} else {
+		return l.input[l.readPosition]
+	}
 }
