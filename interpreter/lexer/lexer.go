@@ -31,7 +31,7 @@ func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
 	l.skipWhitespace()
-	println(string(l.ch), l.position, l.readPosition)
+	//println(string(l.ch), l.position, l.readPosition)
 
 	switch l.ch {
 	case '=':
@@ -78,7 +78,7 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.RBRACE, l.ch)
 	case 0:
 
-		println("IN IS EOF")
+		//println("IN IS EOF")
 		//tok = newToken(token.EOF, l.ch) // crazy... this line gives the error?
 		// The error was the following, when we construct with newToken(),
 		// we pass ch = '', however this is considered the null value and by default
@@ -89,19 +89,19 @@ func (l *Lexer) NextToken() token.Token {
 		tok.Type = token.EOF
 	default:
 		if isLetter(l.ch) {
-			println("IN IS LETTER")
+			//println("IN IS LETTER")
 			//tok = newToken(token.IDENT, l.readIdentifier())
 			//println("INDETIFIER: ", l.readIdentifier())
 			tok.Literal = l.readIdentifier()
 			tok.Type = token.LookupIdent(tok.Literal)
 			return tok // return here to not call readChar()
 		} else if isDigit(l.ch) {
-			println("IN IS DIGIT")
+			//println("IN IS DIGIT")
 			tok.Type = token.INT
 			tok.Literal = l.readNumber()
 			return tok
 		} else {
-			println("IN IS ILLEGAL")
+			//println("IN IS ILLEGAL")
 			tok = newToken(token.ILLEGAL, l.ch)
 		}
 	}
