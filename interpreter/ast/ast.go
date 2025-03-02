@@ -25,3 +25,7 @@ func (p *Program) TokenLiteral() string {
 		return ""
 	}
 }
+
+// continuing to read about parsers so no coding progress today,
+// but I will still commit cuz I'm doing the work guys!
+// p.s. also don't wanna lose my commit streak! :)
