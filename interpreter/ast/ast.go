@@ -1,5 +1,7 @@
 package ast
 
+import "github.com/victortsokonov/TheMonkeyLanguage/interpreter/token"
+
 type Node interface {
 	TokenLiteral() string // returns the literal value of the token it's associated with
 }
@@ -26,13 +28,23 @@ func (p *Program) TokenLiteral() string {
 	}
 }
 
-// continuing to read about parsers so no coding progress today,
-// but I will still commit cuz I'm doing the work guys!
-// p.s. also don't wanna lose my commit streak! :)
-// still reading, STILL READING
-// still reading
-// damn, still reading...
-// still reading, ye
-// still reading
-// still reading
-// still reading, still reading, reading
+type LetStatement struct {
+	Token token.Token // the token.LET token
+	Name  *Identifier
+	Value Expression
+}
+
+func (ls *LetStatement) statementNode() {}
+func (ls *LetStatement) TokenLiteral() string {
+	return ls.Token.Literal
+}
+
+type Identifier struct {
+	Token token.Token // the token.IDENT token
+	Value string
+}
+
+func (i *Identifier) expressionNode() {}
+func (i *Identifier) TokenLiteral() string {
+	return i.Token.Literal
+}
