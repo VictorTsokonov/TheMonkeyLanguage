@@ -43,6 +43,8 @@ const (
 	RETURN   = "RETURN"
 )
 
+type TokenType string
+
 var keywords = map[string]TokenType{
 	"fn":     FUNCTION,
 	"let":    LET,
@@ -52,8 +54,6 @@ var keywords = map[string]TokenType{
 	"else":   ELSE,
 	"return": RETURN,
 }
-
-type TokenType string
 
 type Token struct {
 	Type    TokenType
