@@ -87,14 +87,3 @@ func (p *Parser) expectPeek(t token.TokenType) bool {
 		return false
 	}
 }
-
-// revising, revising, revising, revising....
-// still studying. revising
-// studying..., revising
-// continue
-// never forget...
-// a lot of maths covering, no programming today, sorry...
-// aaaaaaaaaaaa
-// bbbbbbbbbbb
-// cccccc
-// fffff
